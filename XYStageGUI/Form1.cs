@@ -91,5 +91,44 @@ namespace XYStageGUI
         {
 
         }
+
+        private void btnSendPosition_Click(object sender, EventArgs e)
+        {
+            //sets the position of the stage
+            string gcode = "g0 x" + txtSetXVal + " y" + txtSetYVal;
+            serCOM.Write(gcode);
+        }
+
+        private void btnHomePos_Click(object sender, EventArgs e)
+        {
+            //sends a homing command
+            serCOM.Write("$H");
+        }
+
+        private void btnStatus_Click(object sender, EventArgs e)
+        {
+            //sends a machine status request
+            serCOM.Write("?");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //send the command line
+            serCOM.Write(txtCmdLine.Text);
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            //send a stop command
+            Byte[] stopCmd = { 0x21 };
+            serCOM.Write(stopCmd, 0, stopCmd.Length);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // send a soft reset command
+            Byte[] softResetCmd = { 0x18 };
+            serCOM.Write(softResetCmd, 0, softResetCmd.Length);
+        }
     }
 }
