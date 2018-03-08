@@ -71,9 +71,16 @@ namespace XYStageGUI
 
         private void serCOM_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            string indata = serCOM.ReadExisting();
+            string indata = serCOM.ReadLine();
             //TODO: Depending on data input, change the machine status
 
+            //error handling
+            if (indata.Contains("error"))
+            {
+                //send a stop command
+                Byte[] stopCmd = { 0x21 };
+                serCOM.Write(stopCmd, 0, stopCmd.Length);
+            }
 
             lstSerialOutput.BeginUpdate();
             lstSerialOutput.Items.Add(indata);
