@@ -59,6 +59,7 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnSoftReset = new System.Windows.Forms.Button();
             this.tmrDataProcess = new System.Windows.Forms.Timer(this.components);
+            this.btnUnlock = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -362,15 +363,23 @@
             this.btnSoftReset.UseVisualStyleBackColor = true;
             this.btnSoftReset.Click += new System.EventHandler(this.button2_Click);
             // 
-            // tmrDataProcess
+            // btnUnlock
             // 
-
+            this.btnUnlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUnlock.Location = new System.Drawing.Point(244, 345);
+            this.btnUnlock.Name = "btnUnlock";
+            this.btnUnlock.Size = new System.Drawing.Size(173, 33);
+            this.btnUnlock.TabIndex = 32;
+            this.btnUnlock.Text = "Machine Unlock";
+            this.btnUnlock.UseVisualStyleBackColor = true;
+            this.btnUnlock.Click += new System.EventHandler(this.btnUnlock_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1053, 463);
+            this.Controls.Add(this.btnUnlock);
             this.Controls.Add(this.btnSoftReset);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnSendCommand);
@@ -438,6 +447,7 @@
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnSoftReset;
         private System.Windows.Forms.Timer tmrDataProcess;
+        private System.Windows.Forms.Button btnUnlock;
     }
 }
 

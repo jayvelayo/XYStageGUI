@@ -17,6 +17,7 @@ namespace XYStageGUI
         string indata;
         const int XLim =200;
         const int YLim = 500;
+        bool sentHome = false;
 
         //defined function that converts string into its equivalent ASCII for sending
         private byte[] convertToAscii(string s)
@@ -33,9 +34,43 @@ namespace XYStageGUI
             serCOM.Write(toSend, 0, toSend.Length);
         }
 
+        //enables/disables buttons depending on status of serial com
+        private void enableButtons(bool b)
+        {
+            if(b)
+            {
+                btnHomePos.Enabled = true;
+                btnResetZero.Enabled = true;
+                btnSendPosition.Enabled = true;
+                btnSoftReset.Enabled = true;
+                btnStatus.Enabled = true;
+                btnSendCommand.Enabled = true;
+                txtCmdLine.Enabled = true;
+                btnUnlock.Enabled = true;
+                btnStop.Enabled = true;
+                txtSetXVal.Enabled = true;
+                txtSetYVal.Enabled = true;
+            }
+            else
+            {
+                btnHomePos.Enabled = false;
+                btnResetZero.Enabled = false;
+                btnSendPosition.Enabled = false;
+                btnSoftReset.Enabled = false;
+                btnStatus.Enabled = false;
+                btnSendCommand.Enabled = false;
+                txtCmdLine.Enabled = false;
+                btnUnlock.Enabled = false;
+                btnStop.Enabled = false;
+                txtSetXVal.Enabled = false;
+                txtSetYVal.Enabled = false;
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
+            enableButtons(false);
         }
 
         private void cmbPort_DropDown(object sender, EventArgs e)
@@ -69,6 +104,7 @@ namespace XYStageGUI
                     btnConnectDisconnect.Text = "Connect";
                     cmbPort.Enabled = true;
                     cmbBaud.Enabled = true;
+                    enableButtons(false);
                 }
             }
             else
@@ -92,6 +128,7 @@ namespace XYStageGUI
                     btnConnectDisconnect.Text = "Disconnect";
                     cmbPort.Enabled = false;
                     cmbBaud.Enabled = false;
+                    enableButtons(true);
                 }
 
             }
@@ -109,14 +146,6 @@ namespace XYStageGUI
             }
 
             //TODO WISHLIST: Depending on data input, change the machine status
-
-            //error handling
-            if (indata.Contains("error"))
-            {
-                //send a stop command
-                Byte[] stopCmd = { 0x21 };
-                serCOM.Write(stopCmd, 0, stopCmd.Length);
-            }
             
         }
 
@@ -126,6 +155,18 @@ namespace XYStageGUI
             string[] arr = indata.Replace("\n\r", "\r\n").Replace("\r\n", "\n").Trim('\n').Split('\n');
             foreach (string item in arr)
             {
+                if (item == "ok" && sentHome)
+                {
+                    lblXPosition.Text = "0";
+                    lblYPosition.Text = "0";
+                    sentHome = false;
+                }
+                else
+                {
+                    lblXPosition.Text = "?";
+                    lblYPosition.Text = "?";
+                    sentHome = false;
+                }
                 if (item != "ok")
                 {
                     lstSerialOutput.Items.Add(item);
@@ -179,6 +220,7 @@ namespace XYStageGUI
         private void btnHomePos_Click(object sender, EventArgs e)
         {
             //sends a homing command
+            sentHome = true;
             sendCommand("$H");
         }
 
@@ -216,6 +258,11 @@ namespace XYStageGUI
                 sendCommand(txtCmdLine.Text);
                 txtCmdLine.Text = "";
             }
+        }
+
+        private void btnUnlock_Click(object sender, EventArgs e)
+        {
+            sendCommand("$X");
         }
     }
 }
