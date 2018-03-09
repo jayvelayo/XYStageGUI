@@ -206,7 +206,7 @@
             this.lstSerialOutput.ItemHeight = 16;
             this.lstSerialOutput.Location = new System.Drawing.Point(273, 44);
             this.lstSerialOutput.Name = "lstSerialOutput";
-            this.lstSerialOutput.Size = new System.Drawing.Size(345, 84);
+            this.lstSerialOutput.Size = new System.Drawing.Size(493, 84);
             this.lstSerialOutput.TabIndex = 16;
             // 
             // label8
@@ -313,7 +313,7 @@
             // 
             this.txtCmdLine.Location = new System.Drawing.Point(156, 141);
             this.txtCmdLine.Name = "txtCmdLine";
-            this.txtCmdLine.Size = new System.Drawing.Size(390, 22);
+            this.txtCmdLine.Size = new System.Drawing.Size(538, 22);
             this.txtCmdLine.TabIndex = 28;
             this.txtCmdLine.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCmdLine_KeyPress);
             // 
@@ -331,9 +331,9 @@
             // btnSendCommand
             // 
             this.btnSendCommand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSendCommand.Location = new System.Drawing.Point(552, 141);
+            this.btnSendCommand.Location = new System.Drawing.Point(700, 139);
             this.btnSendCommand.Name = "btnSendCommand";
-            this.btnSendCommand.Size = new System.Drawing.Size(66, 24);
+            this.btnSendCommand.Size = new System.Drawing.Size(66, 28);
             this.btnSendCommand.TabIndex = 29;
             this.btnSendCommand.Text = "Send";
             this.btnSendCommand.UseVisualStyleBackColor = true;
@@ -364,7 +364,7 @@
             // 
             // tmrDataProcess
             // 
-            this.tmrDataProcess.Tick += new System.EventHandler(this.tmrDataProcess_Tick);
+
             // 
             // Form1
             // 

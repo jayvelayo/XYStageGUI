@@ -8,20 +8,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
-using System.Collections.Concurrent;
+
 
 namespace XYStageGUI
 {
     public partial class Form1 : Form
     {
-        ConcurrentQueue<string> stringQueue = new ConcurrentQueue<string>();
         string indata;
+        const int XLim =200;
+        const int YLim = 500;
 
         //defined function that converts string into its equivalent ASCII for sending
         private byte[] convertToAscii(string s)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(s);
             return bytes;
+        }
+
+        //sends the string to serial port
+        private void sendCommand(string s)
+        {
+            s += "\r\n";
+            Byte[] toSend = convertToAscii(s);
+            serCOM.Write(toSend, 0, toSend.Length);
         }
 
         public Form1()
@@ -99,7 +108,7 @@ namespace XYStageGUI
                 indata = String.Empty;
             }
 
-            //TODO: Depending on data input, change the machine status
+            //TODO WISHLIST: Depending on data input, change the machine status
 
             //error handling
             if (indata.Contains("error"))
@@ -108,8 +117,6 @@ namespace XYStageGUI
                 Byte[] stopCmd = { 0x21 };
                 serCOM.Write(stopCmd, 0, stopCmd.Length);
             }
-
-            stringQueue.Enqueue(indata);
             
         }
 
@@ -127,22 +134,6 @@ namespace XYStageGUI
             }
         }
 
-        private void tmrDataProcess_Tick(object sender, EventArgs e)
-        {
-            lstSerialOutput.BeginUpdate();
-
-            if (!stringQueue.IsEmpty)
-            {
-                for (int i = 0; i < stringQueue.ToArray().Length; i++)
-                {
-                    stringQueue.TryDequeue(out string outString);
-                    lstSerialOutput.Items.Add(outString);
-                }
-            }
-            lstSerialOutput.SelectedIndex = lstSerialOutput.Items.Count - 1;
-            lstSerialOutput.EndUpdate();
-            lstSerialOutput.Refresh();
-        }
 
         private void btnResetZero_Click(object sender, EventArgs e)
         {
@@ -157,15 +148,38 @@ namespace XYStageGUI
 
         private void btnSendPosition_Click(object sender, EventArgs e)
         {
-            //sets the position of the stage
-            string gcode = "g0 x" + txtSetXVal + " y" + txtSetYVal;
-            serCOM.Write(gcode);
+            //user input error prevention
+            int xval = 0;
+            int yval = 0;
+            bool resx = Int32.TryParse(txtSetXVal.Text, out xval);
+            bool resy = Int32.TryParse(txtSetYVal.Text, out yval);
+            if (resx == true && xval >= 0 && xval <= XLim)
+            {
+                if (resy == true && yval >= 0 && yval <= YLim)
+                {
+                    //sets the position of the stage
+                    string gcode = "g0 x" + txtSetXVal + " y" + txtSetYVal;
+                    sendCommand(gcode);
+                }
+                else
+                {
+                    MessageBox.Show("Please input 0 to " + YLim + " only.");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please input 0 to "+ XLim + " only.");
+                return;
+            }
+
+            
         }
 
         private void btnHomePos_Click(object sender, EventArgs e)
         {
             //sends a homing command
-            serCOM.Write("$H");
+            sendCommand("$H");
         }
 
         private void btnStatus_Click(object sender, EventArgs e)
@@ -177,15 +191,15 @@ namespace XYStageGUI
         private void button1_Click(object sender, EventArgs e)
         {
             //send the command line
-            serCOM.Write(txtCmdLine.Text);
+            sendCommand(txtCmdLine.Text);
             txtCmdLine.Text = "";
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            //send a stop command
-            Byte[] stopCmd = { 0x21 };
-            serCOM.Write(stopCmd, 0, stopCmd.Length);
+            // send a soft reset command
+            Byte[] softResetCmd = { 0x18 };
+            serCOM.Write(softResetCmd, 0, softResetCmd.Length);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -199,9 +213,7 @@ namespace XYStageGUI
         {
             if (e.KeyChar == (char)13)
             {
-                txtCmdLine.Text += "\r\n";
-                Byte[] toSend = convertToAscii(txtCmdLine.Text);
-                serCOM.Write(toSend, 0, toSend.Length);
+                sendCommand(txtCmdLine.Text);
                 txtCmdLine.Text = "";
             }
         }
