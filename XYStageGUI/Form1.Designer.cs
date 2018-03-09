@@ -58,6 +58,7 @@
             this.btnSendCommand = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnSoftReset = new System.Windows.Forms.Button();
+            this.tmrDataProcess = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -314,6 +315,7 @@
             this.txtCmdLine.Name = "txtCmdLine";
             this.txtCmdLine.Size = new System.Drawing.Size(390, 22);
             this.txtCmdLine.TabIndex = 28;
+            this.txtCmdLine.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCmdLine_KeyPress);
             // 
             // label13
             // 
@@ -359,6 +361,10 @@
             this.btnSoftReset.Text = "Soft Reset";
             this.btnSoftReset.UseVisualStyleBackColor = true;
             this.btnSoftReset.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // tmrDataProcess
+            // 
+            this.tmrDataProcess.Tick += new System.EventHandler(this.tmrDataProcess_Tick);
             // 
             // Form1
             // 
@@ -431,6 +437,7 @@
         private System.Windows.Forms.Button btnSendCommand;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnSoftReset;
+        private System.Windows.Forms.Timer tmrDataProcess;
     }
 }
 

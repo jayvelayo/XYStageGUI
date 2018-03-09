@@ -8,11 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.Collections.Concurrent;
 
 namespace XYStageGUI
 {
     public partial class Form1 : Form
     {
+        ConcurrentQueue<string> stringQueue = new ConcurrentQueue<string>();
+        string indata;
+
+        //defined function that converts string into its equivalent ASCII for sending
+        private byte[] convertToAscii(string s)
+        {
+            byte[] bytes = Encoding.ASCII.GetBytes(s);
+            return bytes;
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -37,6 +48,7 @@ namespace XYStageGUI
             cmbBaud.Items.AddRange(baudRates);
         }
 
+
         private void btnConnectDisconnect_Click(object sender, EventArgs e)
         {
 
@@ -44,7 +56,11 @@ namespace XYStageGUI
             if (serCOM.IsOpen)
             {
                 serCOM.Close();
-                if (!serCOM.IsOpen) { cmbPort.Enabled = true; }
+                if (!serCOM.IsOpen) {
+                    btnConnectDisconnect.Text = "Connect";
+                    cmbPort.Enabled = true;
+                    cmbBaud.Enabled = true;
+                }
             }
             else
             {
@@ -63,7 +79,11 @@ namespace XYStageGUI
                 {
                     MessageBox.Show("Error! Can not open port");
                 }
-                if (serCOM.IsOpen) { cmbPort.Enabled = false; }
+                if (serCOM.IsOpen) {
+                    btnConnectDisconnect.Text = "Disconnect";
+                    cmbPort.Enabled = false;
+                    cmbBaud.Enabled = false;
+                }
 
             }
             
@@ -71,7 +91,14 @@ namespace XYStageGUI
 
         private void serCOM_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            string indata = serCOM.ReadLine();
+
+            indata += serCOM.ReadExisting();
+            if (indata.EndsWith("\r\n"))
+            {
+                this.Invoke(new EventHandler(DisplayText));
+                indata = String.Empty;
+            }
+
             //TODO: Depending on data input, change the machine status
 
             //error handling
@@ -82,8 +109,37 @@ namespace XYStageGUI
                 serCOM.Write(stopCmd, 0, stopCmd.Length);
             }
 
+            stringQueue.Enqueue(indata);
+            
+        }
+
+        //event handler for handling new lines of serial input
+        private void DisplayText(object sender, EventArgs e)
+        {
+            string[] arr = indata.Replace("\n\r", "\r\n").Replace("\r\n", "\n").Trim('\n').Split('\n');
+            foreach (string item in arr)
+            {
+                if (item != "ok")
+                {
+                    lstSerialOutput.Items.Add(item);
+                    lstSerialOutput.TopIndex = lstSerialOutput.Items.Count - 1;
+                }
+            }
+        }
+
+        private void tmrDataProcess_Tick(object sender, EventArgs e)
+        {
             lstSerialOutput.BeginUpdate();
-            lstSerialOutput.Items.Add(indata);
+
+            if (!stringQueue.IsEmpty)
+            {
+                for (int i = 0; i < stringQueue.ToArray().Length; i++)
+                {
+                    stringQueue.TryDequeue(out string outString);
+                    lstSerialOutput.Items.Add(outString);
+                }
+            }
+            lstSerialOutput.SelectedIndex = lstSerialOutput.Items.Count - 1;
             lstSerialOutput.EndUpdate();
             lstSerialOutput.Refresh();
         }
@@ -122,6 +178,7 @@ namespace XYStageGUI
         {
             //send the command line
             serCOM.Write(txtCmdLine.Text);
+            txtCmdLine.Text = "";
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -136,6 +193,17 @@ namespace XYStageGUI
             // send a soft reset command
             Byte[] softResetCmd = { 0x18 };
             serCOM.Write(softResetCmd, 0, softResetCmd.Length);
+        }
+
+        private void txtCmdLine_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                txtCmdLine.Text += "\r\n";
+                Byte[] toSend = convertToAscii(txtCmdLine.Text);
+                serCOM.Write(toSend, 0, toSend.Length);
+                txtCmdLine.Text = "";
+            }
         }
     }
 }
