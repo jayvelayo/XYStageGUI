@@ -190,29 +190,29 @@ namespace XYStageGUI
         private void btnSendPosition_Click(object sender, EventArgs e)
         {
             //user input error prevention
-            int xval = 0;
-            int yval = 0;
-            bool resx = Int32.TryParse(txtSetXVal.Text, out xval);
-            bool resy = Int32.TryParse(txtSetYVal.Text, out yval);
-            if (resx == true && xval >= 0 && xval <= XLim)
-            {
-                if (resy == true && yval >= 0 && yval <= YLim)
-                {
+            //int xval = 0;
+            //int yval = 0;
+            //bool resx = Int32.TryParse(txtSetXVal.Text, out xval);
+            //bool resy = Int32.TryParse(txtSetYVal.Text, out yval);
+            //if (resx == true && xval >= 0 && xval <= XLim)
+            //{
+            //    if (resy == true && yval >= 0 && yval <= YLim)
+            //    {
                     //sets the position of the stage
-                    string gcode = "g0 x" + txtSetXVal + " y" + txtSetYVal;
+                    string gcode = "G0 X" + txtSetXVal.Text + " Y" + txtSetYVal.Text;
                     sendCommand(gcode);
-                }
-                else
-                {
-                    MessageBox.Show("Please input 0 to " + YLim + " only.");
-                    return;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please input 0 to "+ XLim + " only.");
-                return;
-            }
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("YAXIS error. Please input 0 to " + YLim + " only.");
+            //        return;
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("XAXIS error. Please input 0 to "+ XLim + " only.");
+            //    return;
+            //}
 
             
         }
@@ -222,6 +222,7 @@ namespace XYStageGUI
             //sends a homing command
             sentHome = true;
             sendCommand("$H");
+            sendCommand("g92 x3 y3");
         }
 
         private void btnStatus_Click(object sender, EventArgs e)
