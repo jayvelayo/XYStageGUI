@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.Threading;
+using System.Collections.Concurrent;
 
 
 namespace XYStageGUI
@@ -20,7 +22,19 @@ namespace XYStageGUI
         bool sentHome = false;
         const double probeDistance = 6.5;
 
+        ConcurrentQueue<int> intSemaphore = new ConcurrentQueue<int>();
 
+        private static Semaphore _semaphore;
+        
+
+        private void waitEnd()
+        {
+            //wait until the semaphore is empty
+            while (!intSemaphore.IsEmpty) ;
+
+            lstSerialOutput.Items.Add("Command complete");
+            lstSerialOutput.TopIndex = lstSerialOutput.Items.Count - 1;
+        }
 
         //defined function that converts string into its equivalent ASCII for sending
         private byte[] convertToAscii(string s)
@@ -32,7 +46,7 @@ namespace XYStageGUI
         //sends the string to serial port
         private void sendCommand(string s)
         {
-            s += "\r\n";
+            s += "\n";
             Byte[] toSend = convertToAscii(s);
             serCOM.Write(toSend, 0, toSend.Length);
         }
@@ -74,6 +88,7 @@ namespace XYStageGUI
         {
             InitializeComponent();
             enableButtons(false);
+            _semaphore = new Semaphore(0, 2);
         }
 
         private void cmbPort_DropDown(object sender, EventArgs e)
@@ -144,6 +159,8 @@ namespace XYStageGUI
             indata += serCOM.ReadExisting();
             if (indata.EndsWith("\r\n"))
             {
+                _semaphore.Release(1);
+               // if(indata == "ok") { int outnum; intSemaphore.TryDequeue(out outnum); }
                 this.Invoke(new EventHandler(DisplayText));
                 indata = String.Empty;
             }
@@ -158,19 +175,11 @@ namespace XYStageGUI
             string[] arr = indata.Replace("\n\r", "\r\n").Replace("\r\n", "\n").Trim('\n').Split('\n');
             foreach (string item in arr)
             {
-                if (item == "ok" && sentHome)
+                if (item == "ok")
                 {
-                    lblXPosition.Text = "0";
-                    lblYPosition.Text = "0";
-                    sentHome = false;
+                    
                 }
                 else
-                {
-                    lblXPosition.Text = "?";
-                    lblYPosition.Text = "?";
-                    sentHome = false;
-                }
-                if (item != "ok")
                 {
                     lstSerialOutput.Items.Add(item);
                     lstSerialOutput.TopIndex = lstSerialOutput.Items.Count - 1;
@@ -190,24 +199,66 @@ namespace XYStageGUI
 
         }
 
+        
+        private void movePosition(string strXIndex, string strYIndex)
+        {
+
+            //sets the position of the stage
+            string gcode = "G0 X" + strXIndex + " Y" + strYIndex;
+            sendCommand(gcode);
+            _semaphore.WaitOne();
+            //intSemaphore.Enqueue(1);
+
+            sendCommand("G4 P0.01");
+            _semaphore.WaitOne();
+            //intSemaphore.Enqueue(1);
+
+            //while (!intSemaphore.IsEmpty) ;
+            this.Invoke(new EventHandler(displayComplete));
+
+        }
+
+        private void displayComplete(object sender, EventArgs e)
+        {
+            lstSerialOutput.Items.Add("Command complete");
+            lstSerialOutput.TopIndex = lstSerialOutput.Items.Count - 1;
+        }
+
         private void btnSendPosition_Click(object sender, EventArgs e)
         {
 
             // Y = A, B, C, ... , W
             // X = 1, 2, 3, ... , 45
-
-            double yIndex = (char.ToUpper(cmbSetY.Text[0]) - 64)*probeDistance;
-            double xIndex = Convert.ToDouble(cmbSetX.Text) * probeDistance;
+            
+            double yIndex = (char.ToUpper(cmbSetY.Text[0]) - 65)*probeDistance;
+            double xIndex = (Convert.ToDouble(cmbSetX.Text) -1)* probeDistance;
 
             string strYIndex = Convert.ToString(yIndex);
             string strXIndex = Convert.ToString(xIndex);
 
+
+            
+            /*
             //sets the position of the stage
             string gcode = "G0 X" + strXIndex + " Y" + strYIndex;
             sendCommand(gcode);
+            _semaphore.WaitOne();
+
+            sendCommand("G4 P0.01");
+            _semaphore.WaitOne();
+
+            lstSerialOutput.Items.Add("Command complete");
+            lstSerialOutput.TopIndex = lstSerialOutput.Items.Count - 1;*/
 
 
+            // intSemaphore.Enqueue(1);
             
+            Thread threadwait = new Thread(() =>movePosition(strXIndex, strYIndex));
+            threadwait.Start();
+            
+
+
+
         }
 
         private void btnHomePos_Click(object sender, EventArgs e)

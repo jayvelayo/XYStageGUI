@@ -298,15 +298,18 @@
             // 
             // txtCmdLine
             // 
+            this.txtCmdLine.Enabled = false;
             this.txtCmdLine.Location = new System.Drawing.Point(156, 141);
             this.txtCmdLine.Name = "txtCmdLine";
             this.txtCmdLine.Size = new System.Drawing.Size(390, 22);
             this.txtCmdLine.TabIndex = 28;
+            this.txtCmdLine.Visible = false;
             this.txtCmdLine.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCmdLine_KeyPress);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
+            this.label13.Enabled = false;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label13.Location = new System.Drawing.Point(12, 139);
@@ -314,9 +317,11 @@
             this.label13.Size = new System.Drawing.Size(138, 24);
             this.label13.TabIndex = 27;
             this.label13.Text = "Command line:";
+            this.label13.Visible = false;
             // 
             // btnSendCommand
             // 
+            this.btnSendCommand.Enabled = false;
             this.btnSendCommand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSendCommand.Location = new System.Drawing.Point(552, 137);
             this.btnSendCommand.Name = "btnSendCommand";
@@ -324,6 +329,7 @@
             this.btnSendCommand.TabIndex = 29;
             this.btnSendCommand.Text = "Send";
             this.btnSendCommand.UseVisualStyleBackColor = true;
+            this.btnSendCommand.Visible = false;
             this.btnSendCommand.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnStop
@@ -396,6 +402,52 @@
             // cmbSetX
             // 
             this.cmbSetX.FormattingEnabled = true;
+            this.cmbSetX.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45"});
             this.cmbSetX.Location = new System.Drawing.Point(259, 233);
             this.cmbSetX.Name = "cmbSetX";
             this.cmbSetX.Size = new System.Drawing.Size(121, 24);
