@@ -266,10 +266,23 @@ namespace XYStageGUI
         {
             //sends a homing command
             sentHome = true;
+            Thread threadHome = new Thread(() => sendHome());
+            threadHome.Start();
+
+        }
+
+        private void sendHome()
+        {
             sendCommand("$H");
+            _semaphore.WaitOne();
             sendCommand("g92 x3 y3");
-            sendCommand("G0 X4.3 Y3.6");
+            _semaphore.WaitOne();
+            sendCommand("G0 X3.55 Y2.35");
+            _semaphore.WaitOne();
             sendCommand("g92 x0 y0");
+            _semaphore.WaitOne();
+
+            this.Invoke(new EventHandler(displayComplete));
         }
 
         private void btnStatus_Click(object sender, EventArgs e)
