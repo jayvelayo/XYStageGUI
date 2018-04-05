@@ -35,10 +35,6 @@
             this.serCOM = new System.IO.Ports.SerialPort(this.components);
             this.cmbBaud = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.btnResetZero = new System.Windows.Forms.Button();
             this.btnHomePos = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -46,11 +42,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.btnSendPosition = new System.Windows.Forms.Button();
-            this.lblXPosition = new System.Windows.Forms.Label();
-            this.lblYPosition = new System.Windows.Forms.Label();
             this.lstPrevPositions = new System.Windows.Forms.ListBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.btnStatus = new System.Windows.Forms.Button();
             this.txtCmdLine = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.btnSendCommand = new System.Windows.Forms.Button();
@@ -124,54 +117,10 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Baud Rate:";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label5.Location = new System.Drawing.Point(12, 183);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(81, 24);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Position:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label6.Location = new System.Drawing.Point(12, 207);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(29, 24);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "X:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label7.Location = new System.Drawing.Point(12, 231);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(27, 24);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Y:";
-            // 
-            // btnResetZero
-            // 
-            this.btnResetZero.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetZero.Location = new System.Drawing.Point(12, 267);
-            this.btnResetZero.Name = "btnResetZero";
-            this.btnResetZero.Size = new System.Drawing.Size(201, 33);
-            this.btnResetZero.TabIndex = 12;
-            this.btnResetZero.Text = "Reset Zero";
-            this.btnResetZero.UseVisualStyleBackColor = true;
-            this.btnResetZero.Click += new System.EventHandler(this.z);
-            // 
             // btnHomePos
             // 
             this.btnHomePos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHomePos.Location = new System.Drawing.Point(229, 306);
+            this.btnHomePos.Location = new System.Drawing.Point(12, 181);
             this.btnHomePos.Name = "btnHomePos";
             this.btnHomePos.Size = new System.Drawing.Size(188, 33);
             this.btnHomePos.TabIndex = 13;
@@ -184,7 +133,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label9.Location = new System.Drawing.Point(229, 183);
+            this.label9.Location = new System.Drawing.Point(225, 181);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(108, 24);
             this.label9.TabIndex = 14;
@@ -215,7 +164,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label8.Location = new System.Drawing.Point(229, 231);
+            this.label8.Location = new System.Drawing.Point(225, 229);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(29, 24);
             this.label8.TabIndex = 18;
@@ -226,7 +175,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label11.Location = new System.Drawing.Point(229, 207);
+            this.label11.Location = new System.Drawing.Point(225, 205);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(27, 24);
             this.label11.TabIndex = 17;
@@ -235,7 +184,7 @@
             // btnSendPosition
             // 
             this.btnSendPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSendPosition.Location = new System.Drawing.Point(229, 267);
+            this.btnSendPosition.Location = new System.Drawing.Point(225, 261);
             this.btnSendPosition.Name = "btnSendPosition";
             this.btnSendPosition.Size = new System.Drawing.Size(188, 33);
             this.btnSendPosition.TabIndex = 21;
@@ -243,35 +192,13 @@
             this.btnSendPosition.UseVisualStyleBackColor = true;
             this.btnSendPosition.Click += new System.EventHandler(this.btnSendPosition_Click);
             // 
-            // lblXPosition
-            // 
-            this.lblXPosition.AutoSize = true;
-            this.lblXPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblXPosition.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblXPosition.Location = new System.Drawing.Point(37, 207);
-            this.lblXPosition.Name = "lblXPosition";
-            this.lblXPosition.Size = new System.Drawing.Size(20, 24);
-            this.lblXPosition.TabIndex = 22;
-            this.lblXPosition.Text = "?";
-            // 
-            // lblYPosition
-            // 
-            this.lblYPosition.AutoSize = true;
-            this.lblYPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblYPosition.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblYPosition.Location = new System.Drawing.Point(37, 231);
-            this.lblYPosition.Name = "lblYPosition";
-            this.lblYPosition.Size = new System.Drawing.Size(20, 24);
-            this.lblYPosition.TabIndex = 23;
-            this.lblYPosition.Text = "?";
-            // 
             // lstPrevPositions
             // 
             this.lstPrevPositions.FormattingEnabled = true;
             this.lstPrevPositions.ItemHeight = 16;
             this.lstPrevPositions.Location = new System.Drawing.Point(436, 208);
             this.lstPrevPositions.Name = "lstPrevPositions";
-            this.lstPrevPositions.Size = new System.Drawing.Size(182, 180);
+            this.lstPrevPositions.Size = new System.Drawing.Size(182, 84);
             this.lstPrevPositions.TabIndex = 25;
             // 
             // label12
@@ -284,17 +211,6 @@
             this.label12.Size = new System.Drawing.Size(168, 24);
             this.label12.TabIndex = 24;
             this.label12.Text = "Previous Positions:";
-            // 
-            // btnStatus
-            // 
-            this.btnStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStatus.Location = new System.Drawing.Point(12, 306);
-            this.btnStatus.Name = "btnStatus";
-            this.btnStatus.Size = new System.Drawing.Size(201, 33);
-            this.btnStatus.TabIndex = 26;
-            this.btnStatus.Text = "Get Status";
-            this.btnStatus.UseVisualStyleBackColor = true;
-            this.btnStatus.Click += new System.EventHandler(this.btnStatus_Click);
             // 
             // txtCmdLine
             // 
@@ -336,7 +252,7 @@
             // 
             this.btnStop.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(12, 398);
+            this.btnStop.Location = new System.Drawing.Point(12, 300);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(606, 53);
             this.btnStop.TabIndex = 30;
@@ -347,9 +263,9 @@
             // btnSoftReset
             // 
             this.btnSoftReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSoftReset.Location = new System.Drawing.Point(12, 345);
+            this.btnSoftReset.Location = new System.Drawing.Point(12, 223);
             this.btnSoftReset.Name = "btnSoftReset";
-            this.btnSoftReset.Size = new System.Drawing.Size(201, 33);
+            this.btnSoftReset.Size = new System.Drawing.Size(188, 33);
             this.btnSoftReset.TabIndex = 31;
             this.btnSoftReset.Text = "Soft Reset";
             this.btnSoftReset.UseVisualStyleBackColor = true;
@@ -358,7 +274,7 @@
             // btnUnlock
             // 
             this.btnUnlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUnlock.Location = new System.Drawing.Point(229, 345);
+            this.btnUnlock.Location = new System.Drawing.Point(12, 261);
             this.btnUnlock.Name = "btnUnlock";
             this.btnUnlock.Size = new System.Drawing.Size(188, 33);
             this.btnUnlock.TabIndex = 32;
@@ -393,7 +309,7 @@
             "U",
             "V",
             "W"});
-            this.cmbSetY.Location = new System.Drawing.Point(259, 207);
+            this.cmbSetY.Location = new System.Drawing.Point(255, 205);
             this.cmbSetY.Name = "cmbSetY";
             this.cmbSetY.Size = new System.Drawing.Size(121, 24);
             this.cmbSetY.TabIndex = 33;
@@ -448,7 +364,7 @@
             "43",
             "44",
             "45"});
-            this.cmbSetX.Location = new System.Drawing.Point(259, 233);
+            this.cmbSetX.Location = new System.Drawing.Point(255, 231);
             this.cmbSetX.Name = "cmbSetX";
             this.cmbSetX.Size = new System.Drawing.Size(121, 24);
             this.cmbSetX.TabIndex = 34;
@@ -458,7 +374,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(632, 463);
+            this.ClientSize = new System.Drawing.Size(629, 362);
             this.Controls.Add(this.cmbSetX);
             this.Controls.Add(this.cmbSetY);
             this.Controls.Add(this.btnUnlock);
@@ -467,11 +383,8 @@
             this.Controls.Add(this.btnSendCommand);
             this.Controls.Add(this.txtCmdLine);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.btnStatus);
             this.Controls.Add(this.lstPrevPositions);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.lblYPosition);
-            this.Controls.Add(this.lblXPosition);
             this.Controls.Add(this.btnSendPosition);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label11);
@@ -479,10 +392,6 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.btnHomePos);
-            this.Controls.Add(this.btnResetZero);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbBaud);
             this.Controls.Add(this.cmbPort);
@@ -503,10 +412,6 @@
         private System.IO.Ports.SerialPort serCOM;
         private System.Windows.Forms.ComboBox cmbBaud;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button btnResetZero;
         private System.Windows.Forms.Button btnHomePos;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
@@ -514,11 +419,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnSendPosition;
-        private System.Windows.Forms.Label lblXPosition;
-        private System.Windows.Forms.Label lblYPosition;
         private System.Windows.Forms.ListBox lstPrevPositions;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button btnStatus;
         private System.Windows.Forms.TextBox txtCmdLine;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnSendCommand;

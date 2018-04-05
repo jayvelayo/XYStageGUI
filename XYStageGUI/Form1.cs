@@ -57,10 +57,8 @@ namespace XYStageGUI
             if(b)
             {
                 btnHomePos.Enabled = true;
-                btnResetZero.Enabled = true;
                 btnSendPosition.Enabled = true;
                 btnSoftReset.Enabled = true;
-                btnStatus.Enabled = true;
                 btnSendCommand.Enabled = true;
                 txtCmdLine.Enabled = true;
                 btnUnlock.Enabled = true;
@@ -71,10 +69,8 @@ namespace XYStageGUI
             else
             {
                 btnHomePos.Enabled = false;
-                btnResetZero.Enabled = false;
                 btnSendPosition.Enabled = false;
                 btnSoftReset.Enabled = false;
-                btnStatus.Enabled = false;
                 btnSendCommand.Enabled = false;
                 txtCmdLine.Enabled = false;
                 btnUnlock.Enabled = false;
@@ -190,8 +186,7 @@ namespace XYStageGUI
 
         private void btnResetZero_Click(object sender, EventArgs e)
         {
-            lblXPosition.Text = "0";
-            lblYPosition.Text = "0";
+           
         }
 
         private void z(object sender, EventArgs e)
@@ -214,6 +209,8 @@ namespace XYStageGUI
             //intSemaphore.Enqueue(1);
 
             //while (!intSemaphore.IsEmpty) ;
+
+           
             this.Invoke(new EventHandler(displayComplete));
 
         }
@@ -222,6 +219,8 @@ namespace XYStageGUI
         {
             lstSerialOutput.Items.Add("Command complete");
             lstSerialOutput.TopIndex = lstSerialOutput.Items.Count - 1;
+
+           
         }
 
         private void btnSendPosition_Click(object sender, EventArgs e)
@@ -255,8 +254,10 @@ namespace XYStageGUI
             
             Thread threadwait = new Thread(() =>movePosition(strXIndex, strYIndex));
             threadwait.Start();
-            
 
+            string prevPosition = char.ToUpper(cmbSetY.Text[0]) + cmbSetX.Text;
+            lstPrevPositions.Items.Add(prevPosition);
+            lstPrevPositions.TopIndex = lstPrevPositions.Items.Count - 1;
 
 
         }
