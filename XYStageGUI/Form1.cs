@@ -18,6 +18,9 @@ namespace XYStageGUI
         const int XLim =200;
         const int YLim = 500;
         bool sentHome = false;
+        const double probeDistance = 6.5;
+
+
 
         //defined function that converts string into its equivalent ASCII for sending
         private byte[] convertToAscii(string s)
@@ -48,8 +51,8 @@ namespace XYStageGUI
                 txtCmdLine.Enabled = true;
                 btnUnlock.Enabled = true;
                 btnStop.Enabled = true;
-                txtSetXVal.Enabled = true;
-                txtSetYVal.Enabled = true;
+                cmbSetX.Enabled = true;
+                cmbSetY.Enabled = true;
             }
             else
             {
@@ -62,8 +65,8 @@ namespace XYStageGUI
                 txtCmdLine.Enabled = false;
                 btnUnlock.Enabled = false;
                 btnStop.Enabled = false;
-                txtSetXVal.Enabled = false;
-                txtSetYVal.Enabled = false;
+                cmbSetX.Enabled = false;
+                cmbSetY.Enabled = false;
             }
         }
 
@@ -189,30 +192,20 @@ namespace XYStageGUI
 
         private void btnSendPosition_Click(object sender, EventArgs e)
         {
-            //user input error prevention
-            //int xval = 0;
-            //int yval = 0;
-            //bool resx = Int32.TryParse(txtSetXVal.Text, out xval);
-            //bool resy = Int32.TryParse(txtSetYVal.Text, out yval);
-            //if (resx == true && xval >= 0 && xval <= XLim)
-            //{
-            //    if (resy == true && yval >= 0 && yval <= YLim)
-            //    {
-                    //sets the position of the stage
-                    string gcode = "G0 X" + txtSetXVal.Text + " Y" + txtSetYVal.Text;
-                    sendCommand(gcode);
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("YAXIS error. Please input 0 to " + YLim + " only.");
-            //        return;
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("XAXIS error. Please input 0 to "+ XLim + " only.");
-            //    return;
-            //}
+
+            // Y = A, B, C, ... , W
+            // X = 1, 2, 3, ... , 45
+
+            double yIndex = (char.ToUpper(cmbSetY.Text[0]) - 64)*probeDistance;
+            double xIndex = Convert.ToDouble(cmbSetX.Text) * probeDistance;
+
+            string strYIndex = Convert.ToString(yIndex);
+            string strXIndex = Convert.ToString(xIndex);
+
+            //sets the position of the stage
+            string gcode = "G0 X" + strXIndex + " Y" + strYIndex;
+            sendCommand(gcode);
+
 
             
         }
@@ -223,6 +216,8 @@ namespace XYStageGUI
             sentHome = true;
             sendCommand("$H");
             sendCommand("g92 x3 y3");
+            sendCommand("G0 X4.3 Y3.6");
+            sendCommand("g92 x0 y0");
         }
 
         private void btnStatus_Click(object sender, EventArgs e)
